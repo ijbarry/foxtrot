@@ -12,9 +12,6 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-import java.util.Base64;
-
 public class API {
     private static final Logger log = Logger.getLogger(API.class.getName());
     private static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -23,14 +20,20 @@ public class API {
     private static Connection connection = null;
 
     //MACROS
-    private static String DATABASE_URL = "jdbc:sqlserver://yourserver.database.windows.net:1433;"
-            + "database=AdventureWorks;"
-            + "user=yourusername@yourserver;"
-            + "password=yourpassword;"
-            + "encrypt=true;"
-            + "trustServerCertificate=false;"
-            + "loginTimeout=30;";
-    private static String DATABASE_NAME = "PestsAndDisease";
+    // TODO: Use a login other than server admin (sa).
+    // TODO: Change from the prototype database.
+    private static String DATABASE_URL = "jdbc:sqlserver://localhost;"
+            + "user=sa;"
+            + "password=Foxtrot6;"
+            + "database=Prototype;";
+
+            // No login timeout rn - do we want this, or make new connection each time with timeout?
+
+            // + "encrypt=true;"
+            // + "trustServerCertificate=false;"
+            // Security doesn't work for time being, can work on later.
+
+    // private static String DATABASE_NAME = "PestsAndDisease";
 
 
     private static boolean inUK(float lat,float lang){
@@ -45,7 +48,7 @@ public class API {
             connection = DriverManager.getConnection(DATABASE_URL);
         }
         catch (SQLException e){
-        log.severe(dtf.format(LocalDateTime.now())+":Failed to connect to database with error: " + e.getMessage());
+        log.severe(dtf.format(LocalDateTime.now())+ ":Failed to connect to database with error: " + e.getMessage());
         }
     }
 
@@ -81,8 +84,8 @@ public class API {
             try {
                 if (inUK( reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"))) {
 
-                    String sql = "insert into "+DATABASE_NAME
-                            + "(report_id, category, date, latitude, longitude, name, description, image,solved)"
+                    String sql = "INSERT PestsAndDiseases"
+                            + "(report_id, category, date, latitude, longitude, name, description, image, solved)"
                             + "VALUES (?,?,?,?,?,?,?,?,?)";
 
                     PreparedStatement p = connection.prepareStatement(sql);
@@ -115,11 +118,25 @@ public class API {
         });
 
         get("/api/map/*", (request, response) -> {
-            JSONObject reqBody = new JSONObject( request.body());
+            JSONObject reqBody = new JSONObject(request.body());
             JSONObject res = new JSONObject();
             try {
                 if (inUK( reqBody.getFloat("longitude"),  reqBody.getFloat("longitude"))) {
                     //DB request for info on body.get("pest"); in range
+                    Statement statement = connection.createStatement();
+                    String sql = "SELECT date, latitude, longitude, description " +
+                        "FROM PestsAndDiseases " +
+                        "WHERE name = " + reqBody.getString("name") +
+                        " AND category = 'Pest'";
+                    // TODO: Filter by location.
+
+                    ResultSet resultSet = statement.executeQuery(sql);
+                    while (resultSet.next()) {
+                        res.append("date", resultSet.getString(1));
+                        res.append("latitude", resultSet.getString(2));
+                        res.append("longitude", resultSet.getString(3));
+                        res.append("description", resultSet.getString(4));
+                    }
                 }
             }
             catch(JSONException e){
