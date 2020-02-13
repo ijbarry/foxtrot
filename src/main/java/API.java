@@ -117,6 +117,54 @@ public class API {
             return response;
         });
 
+        post("/api/update",(request, response) -> {
+            JSONObject reqBody = new JSONObject(request.body());
+            JSONObject res = new JSONObject();
+            try {
+                if (inUK( reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"))) {
+
+                    String query = "SELECT (description, image, solved) from PestsAndDiseases"
+                            + "WHERE report_id=?";
+
+                    PreparedStatement prep = connection.prepareStatement(query);
+                    prep.setString(1, reqBody.getString("report_id"));
+                    ResultSet resultSet = prep.executeQuery(query);
+
+                    if(resultSet.getString("solved") != ""){
+                        res.append("error","Case closed");
+                        res.append("complete",false);
+                    }
+                    else {
+                        // add new description/image
+                        String insert = "UPDATE PestsAndDiseases SET description=?,image=?,solved=? WHERE report_id = ?";
+                        PreparedStatement p = connection.prepareStatement(insert);
+                        p.setString(2,resultSet.getString("description")+reqBody.optString("description"));
+                        if(resultSet.getString("image") == ""){
+                            p.setString(2, reqBody.optString("image"));
+                        }
+                        else{
+                            p.setString(2,resultSet.getString("image"));
+                        }
+                        p.setString(4, reqBody.optString("solved"));
+                        p.setString(4, reqBody.getString("report_id"));
+
+                        res.append("complete", true);
+                    }
+                }
+                else{
+                    res.append("complete",false);
+                    res.append("error","Outside UK");
+                }
+            }
+            catch(JSONException e){
+                log.warning(dtf.format(LocalDateTime.now())+":Error in parsing POST request to /api/update" + e.getMessage());
+                res.append("error","Request parsing error");
+                res.append("complete",false);
+                response.body(res.toString());
+            }
+            return response;
+        });
+
         get("/api/map/*", (request, response) -> {
             JSONObject reqBody = new JSONObject(request.body());
             JSONObject res = new JSONObject();

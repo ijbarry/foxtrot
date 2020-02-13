@@ -4,9 +4,12 @@
     <bytecodeTargetLevel>
       <module name="foxtrot.main" target="1.8" />
       <module name="foxtrot.test" target="1.8" />
+      <module name="FurtherGraphics.foxtrot.main" target="1.8" />
+      <module name="FurtherGraphics.foxtrot.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
@@ -33,6 +36,8 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/FurtherGraphics.foxtrot.main.iml" filepath="$PROJECT_DIR$/FurtherGraphics.foxtrot.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FurtherGraphics.foxtrot.test.iml" filepath="$PROJECT_DIR$/FurtherGraphics.foxtrot.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/foxtrot.iml" filepath="$PROJECT_DIR$/foxtrot.iml" />
       <module fileurl="file://$PROJECT_DIR$/foxtrot.main.iml" filepath="$PROJECT_DIR$/foxtrot.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/foxtrot.test.iml" filepath="$PROJECT_DIR$/foxtrot.test.iml" />
@@ -51,6 +56,15 @@
       </CLASSES>
       <JAVADOC />
       <SOURCES />
+    </library>
+    <library name="Gradle: com.microsoft.sqlserver:mssql-jdbc:8.2.0.jre8">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.microsoft.sqlserver/mssql-jdbc/8.2.0.jre8/5bc0f966d36a76c24f99b5eaa9c2fd2dff134359/mssql-jdbc-8.2.0.jre8.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.microsoft.sqlserver/mssql-jdbc/8.2.0.jre8/9cd72a0b265fcdc6724262222ff5ac410512b196/mssql-jdbc-8.2.0.jre8-sources.jar!/" />
+      </SOURCES>
     </library>
     <library name="Gradle: com.sparkjava:spark-core:2.3">
       <CLASSES>

@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70faf6f1-baa8-461b-95a4-deb5803731bd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FurtherGraphics.foxtrot.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FurtherGraphics.foxtrot.test.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/foxtrot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/foxtrot.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/foxtrot.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/foxtrot.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/foxtrot.iws" beforeDir="false" afterPath="$PROJECT_DIR$/foxtrot.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/foxtrot.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/foxtrot.main.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/foxtrot.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/foxtrot.test.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/API.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/API.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,6 +32,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
@@ -42,6 +40,7 @@
   <component name="ProjectId" id="1XcuC2OjGFNfqcpLieA9QMQUDGX" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -114,6 +113,9 @@
       <option name="presentableId" value="Default" />
       <updated>1581357572702</updated>
       <workItem from="1581357577480" duration="16188000" />
+      <workItem from="1581454914008" duration="3200000" />
+      <workItem from="1581510541452" duration="432000" />
+      <workItem from="1581606103860" duration="1671000" />
     </task>
     <task id="LOCAL-00001" summary="API beginning">
       <created>1581419284480</created>
@@ -127,6 +129,19 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="API beginning" />
