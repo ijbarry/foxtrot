@@ -118,11 +118,25 @@ public class API {
         });
 
         get("/api/map/*", (request, response) -> {
-            JSONObject reqBody = new JSONObject( request.body());
+            JSONObject reqBody = new JSONObject(request.body());
             JSONObject res = new JSONObject();
             try {
                 if (inUK( reqBody.getFloat("longitude"),  reqBody.getFloat("longitude"))) {
                     //DB request for info on body.get("pest"); in range
+                    Statement statement = connection.createStatement();
+                    String sql = "SELECT date, latitude, longitude, description " +
+                        "FROM PestsAndDiseases " +
+                        "WHERE name = " + reqBody.getString("name") +
+                        " AND category = 'Pest'";
+                    // TODO: Filter by location.
+
+                    ResultSet resultSet = statement.executeQuery(sql);
+                    while (resultSet.next()) {
+                        res.append("date", resultSet.getString(1));
+                        res.append("latitude", resultSet.getString(2));
+                        res.append("longitude", resultSet.getString(3));
+                        res.append("description", resultSet.getString(4));
+                    }
                 }
             }
             catch(JSONException e){
