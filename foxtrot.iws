@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70faf6f1-baa8-461b-95a4-deb5803731bd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/FurtherGraphics.foxtrot.main.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FurtherGraphics.foxtrot.test.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/foxtrot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/foxtrot.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/foxtrot.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/foxtrot.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/foxtrot.iws" beforeDir="false" afterPath="$PROJECT_DIR$/foxtrot.iws" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/API.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/API.java" afterDir="false" />
     </list>
@@ -115,7 +111,8 @@
       <workItem from="1581357577480" duration="16188000" />
       <workItem from="1581454914008" duration="3200000" />
       <workItem from="1581510541452" duration="432000" />
-      <workItem from="1581606103860" duration="1671000" />
+      <workItem from="1581606103860" duration="1808000" />
+      <workItem from="1581886440249" duration="10354000" />
     </task>
     <task id="LOCAL-00001" summary="API beginning">
       <created>1581419284480</created>
@@ -124,7 +121,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581419284480</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Update reports enabled">
+      <created>1581607802197</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1581607802197</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,6 +149,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="API beginning" />
-    <option name="LAST_COMMIT_MESSAGE" value="API beginning" />
+    <MESSAGE value="Update reports enabled" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update reports enabled" />
   </component>
 </project>

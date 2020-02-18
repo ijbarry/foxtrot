@@ -1,16 +1,20 @@
 import static spark.Spark.*;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import java.math.BigDecimal;
 
 public class API {
     private static final Logger log = Logger.getLogger(API.class.getName());
@@ -27,11 +31,14 @@ public class API {
             + "password=Foxtrot6;"
             + "database=Prototype;";
 
+
+
             // No login timeout rn - do we want this, or make new connection each time with timeout?
 
             // + "encrypt=true;"
             // + "trustServerCertificate=false;"
             // Security doesn't work for time being, can work on later.
+            private static int UPDATE_LIMIT = 9;
 
     // private static String DATABASE_NAME = "PestsAndDisease";
 
@@ -41,6 +48,19 @@ public class API {
             return true;
         }
         return false;
+    }
+
+    private static boolean inRange(float centreLat,float centreLang, float newLat,float newLang){
+        if(newLat <centreLat+0.5 && newLat > centreLat-0.5 && newLang <centreLang+0.5 && newLang > centreLang-0.5){
+            return true;
+        }
+        return false;
+    }
+
+    public static float round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd.floatValue();
     }
 
     private static void connectDB(){
@@ -84,34 +104,34 @@ public class API {
             try {
                 if (inUK( reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"))) {
 
-                    String sql = "INSERT PestsAndDiseases"
-                            + "(report_id, category, date, latitude, longitude, name, description, image, solved)"
-                            + "VALUES (?,?,?,?,?,?,?,?,?)";
+                    String sql = "INSERT INTO PestsAndDiseases(report_id, category, date, latitude, longitude, name, description, image, solved,severity)"
+                            + "VALUES (?,?,?,?,?,?,?,?,?,?)";
 
                     PreparedStatement p = connection.prepareStatement(sql);
-                    p.setString(1, reqBody.getString("report_id"));
+                    p.setInt(1, reqBody.getInt("report_id"));
                     p.setString(2, reqBody.optString("category"));
-                    p.setString(3, reqBody.optString("date",dtf.format(LocalDateTime.now())));
-                    p.setString(4, reqBody.optString("latitude"));
-                    p.setString(5, reqBody.optString("longitude"));
+                    p.setDate(3, Date.valueOf( dtf.format(LocalDateTime.now())));
+                    p.setFloat(4, reqBody.optFloat("latitude"));
+                    p.setFloat(5, reqBody.optFloat("longitude"));
                     p.setString(6, reqBody.optString("name"));
                     p.setString(7, reqBody.optString("description"));
                     p.setString(8, reqBody.optString("image"));
                     p.setString(9, reqBody.optString("solved"));
+                    p.setString(10, reqBody.optString("severity"));
 
                     p.execute(sql);
 
-                    res.append("complete",true);
+                    res.put("complete",true);
                 }
                 else{
-                    res.append("complete",false);
-                    res.append("error","Outside UK");
+                    res.put("complete",false);
+                    res.put("error","Outside UK");
                 }
             }
             catch(JSONException e){
                 log.warning(dtf.format(LocalDateTime.now())+":Error in parsing POST request to /api/new");
-                res.append("error","Request parsing error");
-                res.append("complete",false);
+                res.put("error","Request parsing error");
+                res.put("complete",false);
                 response.body(res.toString());
             }
             return response;
@@ -121,78 +141,99 @@ public class API {
             JSONObject reqBody = new JSONObject(request.body());
             JSONObject res = new JSONObject();
             try {
-                if (inUK( reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"))) {
-
-                    String query = "SELECT (description, image, solved) from PestsAndDiseases"
+                    String query = "SELECT COUNT(*) AS total from ReportUpdates"
                             + "WHERE report_id=?";
 
                     PreparedStatement prep = connection.prepareStatement(query);
-                    prep.setString(1, reqBody.getString("report_id"));
-                    ResultSet resultSet = prep.executeQuery(query);
-
-                    if(resultSet.getString("solved") != ""){
-                        res.append("error","Case closed");
+                    prep.setInt(1, reqBody.getInt("report_id"));
+                    ResultSet resultSet = prep.executeQuery();
+                    if(resultSet.getInt("total") >= UPDATE_LIMIT){
+                        res.append("error","Update limit reached");
                         res.append("complete",false);
+                        response.body(res.toString());
+                        return response;
                     }
-                    else {
-                        // add new description/image
-                        String insert = "UPDATE PestsAndDiseases SET description=?,image=?,solved=? WHERE report_id = ?";
-                        PreparedStatement p = connection.prepareStatement(insert);
-                        p.setString(2,resultSet.getString("description")+reqBody.optString("description"));
-                        if(resultSet.getString("image") == ""){
-                            p.setString(2, reqBody.optString("image"));
-                        }
-                        else{
-                            p.setString(2,resultSet.getString("image"));
-                        }
-                        p.setString(4, reqBody.optString("solved"));
-                        p.setString(4, reqBody.getString("report_id"));
+                String insert = "INSERT INTO UpdateInfo(update_id,description,image,date,severity) VALUES(?,?,?,?,?) ";
 
-                        res.append("complete", true);
-                    }
-                }
-                else{
-                    res.append("complete",false);
-                    res.append("error","Outside UK");
-                }
+                PreparedStatement preparedStatement = connection.prepareStatement(insert);
+                preparedStatement.setInt(1, reqBody.optInt("report_id")*10 + (resultSet.getInt("total")+1));
+                preparedStatement.setString(2, reqBody.optString("description"));
+                preparedStatement.setString(3, reqBody.optString("image"));
+                preparedStatement.setDate(4, Date.valueOf( dtf.format(LocalDateTime.now())));
+                preparedStatement.setInt(3, reqBody.optInt("severity"));
+                preparedStatement.execute();
+
+                String reportupdate = "INSERT INTO ReportUpdates(report_id,update_id) VALUES(?,?) ";
+
+                PreparedStatement update = connection.prepareStatement(insert);
+                update.setInt(1, reqBody.getInt("report_id"));
+                update.setInt(2, reqBody.getInt("report_id")*10 + (resultSet.getInt("total")+1));
+                update.execute();
+
+                res.append("complete",true);
+                response.body(res.toString());
             }
             catch(JSONException e){
                 log.warning(dtf.format(LocalDateTime.now())+":Error in parsing POST request to /api/update" + e.getMessage());
-                res.append("error","Request parsing error");
-                res.append("complete",false);
+                res.put("error","Request parsing error");
+                res.put("complete",false);
+                response.body(res.toString());
+            }
+            catch (SQLException f){
+                log.warning(dtf.format(LocalDateTime.now())+":Error in database connection: " + f.getMessage());
+                res.put("error","Database connection error");
+                res.put("complete",false);
                 response.body(res.toString());
             }
             return response;
         });
 
-        get("/api/map/*", (request, response) -> {
+        get("/api/map/pest", (request, response) -> {
             JSONObject reqBody = new JSONObject(request.body());
-            JSONObject res = new JSONObject();
+            JSONArray results = new JSONArray();
             try {
-                if (inUK( reqBody.getFloat("longitude"),  reqBody.getFloat("longitude"))) {
+                if (inUK( reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"))) {
                     //DB request for info on body.get("pest"); in range
-                    Statement statement = connection.createStatement();
-                    String sql = "SELECT date, latitude, longitude, description " +
-                        "FROM PestsAndDiseases " +
-                        "WHERE name = " + reqBody.getString("name") +
-                        " AND category = 'Pest'";
-                    // TODO: Filter by location.
+                    String req = "SELECT (date, latitude, longitude, severity) FROM PestsAndDiseases WHERE name = ? AND category = 'Pest'";
+                    PreparedStatement p = connection.prepareStatement(req);
+                    p.setString(1, reqBody.optString("name"));
+                    ResultSet resultSet = p.executeQuery();
 
-                    ResultSet resultSet = statement.executeQuery(sql);
+                    // TODO: Filter by location and date
                     while (resultSet.next()) {
-                        res.append("date", resultSet.getString(1));
-                        res.append("latitude", resultSet.getString(2));
-                        res.append("longitude", resultSet.getString(3));
-                        res.append("description", resultSet.getString(4));
+                        if(resultSet.getDate("date").toLocalDate().isAfter(LocalDate.now().minusDays(60))) {
+                            if(inRange(reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"),resultSet.getFloat("latitude"),resultSet.getFloat("longitude"))) {
+                                JSONObject result = new JSONObject();
+                                result.put("date", resultSet.getDate("date").toString());
+                                result.put("latitude", Math.round(resultSet.getFloat("latitude")*1000)/1000 );
+                                result.put("longitude", Math.round(resultSet.getFloat("longitude")*1000)/1000);
+                                result.put("severity", resultSet.getInt("severity"));
+                                results.put(result);
+                            }
+                        }
                     }
+
+                    response.body(results.toString());
                 }
             }
             catch(JSONException e){
                 log.warning(dtf.format(LocalDateTime.now())+":Error in parsing GET request to /api/map/*");
-                res.append("error","Request parsing error");
-                response.body(res.toString());
+                results = new JSONArray();
+                JSONObject result = new JSONObject();
+                result.put("error","Request parsing error");
+                result.put("complete",false);
+                results.put(result);
+                response.body(results.toString());
             }
-
+            catch (SQLException f){
+                log.warning(dtf.format(LocalDateTime.now())+":Error in database connection: " + f.getMessage());
+                results = new JSONArray();
+                JSONObject result = new JSONObject();
+                result.put("error","Database connection error");
+                result.put("complete",false);
+                results.put(result);
+                response.body(results.toString());
+            }
             return response;
         });
     }
