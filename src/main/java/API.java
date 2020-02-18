@@ -29,11 +29,8 @@ public class API {
     private static String DATABASE_URL = "jdbc:sqlserver://localhost;"
             + "user=sa;"
             + "password=Foxtrot6;"
+            + "loginTimeout=30" // <- This is timeout to establish connection, not keeping it.
             + "database=Prototype;";
-
-
-
-            // No login timeout rn - do we want this, or make new connection each time with timeout?
 
             // + "encrypt=true;"
             // + "trustServerCertificate=false;"
