@@ -107,7 +107,7 @@ public class API {
                     PreparedStatement p = connection.prepareStatement(sql);
                     p.setInt(1, reqBody.getInt("report_id"));
                     p.setString(2, reqBody.optString("category"));
-                    p.setDate(3, java.sql.Date.valueOf(java.time.LocalDate.now()));
+                    p.setDate(3, Date.valueOf(LocalDate.now()));
                     p.setFloat(4, reqBody.optFloat("latitude"));
                     p.setFloat(5, reqBody.optFloat("longitude"));
                     p.setString(6, reqBody.optString("name"));
@@ -156,7 +156,7 @@ public class API {
                 preparedStatement.setInt(1, reqBody.optInt("report_id")*10 + (resultSet.getInt("total")+1));
                 preparedStatement.setString(2, reqBody.optString("description"));
                 preparedStatement.setString(3, reqBody.optString("image"));
-                preparedStatement.setDate(4, java.sql.Date.valueOf(java.time.LocalDate.now()));
+                preparedStatement.setDate(4, Date.valueOf(LocalDate.now()));
                 preparedStatement.setInt(3, reqBody.optInt("severity"));
                 preparedStatement.execute();
 
