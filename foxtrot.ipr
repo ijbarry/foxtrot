@@ -51,19 +51,17 @@
   </component>
   <component name="libraryTable">
     <library name="Gradle: com.microsoft.sqlserver:mssql-jdbc:">
-      <CLASSES>
-        <root url="file://$APPLICATION_HOME_DIR$/jbr/bin/Could not find com.microsoft.sqlserver:mssql-jdbc:." />
-      </CLASSES>
+      <CLASSES />
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="Gradle: com.microsoft.sqlserver:mssql-jdbc:8.2.0.jre8">
+    <library name="Gradle: com.microsoft.sqlserver:mssql-jdbc:7.0.0.jre8">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.microsoft.sqlserver/mssql-jdbc/8.2.0.jre8/5bc0f966d36a76c24f99b5eaa9c2fd2dff134359/mssql-jdbc-8.2.0.jre8.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.microsoft.sqlserver/mssql-jdbc/7.0.0.jre8/59663c36aa1433925c2971a7fd86d3b56317964c/mssql-jdbc-7.0.0.jre8.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.microsoft.sqlserver/mssql-jdbc/8.2.0.jre8/9cd72a0b265fcdc6724262222ff5ac410512b196/mssql-jdbc-8.2.0.jre8-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.microsoft.sqlserver/mssql-jdbc/7.0.0.jre8/f387a1864127bc0b577be69366c04980f2df94df/mssql-jdbc-7.0.0.jre8-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.sparkjava:spark-core:2.3">

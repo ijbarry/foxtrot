@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:00:33</date>
+  <millis>1582023633121</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:00:33: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:04:38</date>
+  <millis>1582023878502</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:04:38: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:15:01</date>
+  <millis>1582024501813</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:15:01: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:23:48</date>
+  <millis>1582025028418</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:23:48: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:28:28</date>
+  <millis>1582025308104</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:28:28: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:33:40</date>
+  <millis>1582025620776</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:33:40: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:42:01</date>
+  <millis>1582026121266</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:42:01: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:47:35</date>
+  <millis>1582026455119</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:47:35: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:48:59</date>
+  <millis>1582026539084</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:48:59: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:50:32</date>
+  <millis>1582026632530</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:50:32: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:50:46</date>
+  <millis>1582026646248</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:50:46: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:51:03</date>
+  <millis>1582026663570</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:51:03: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:51:33</date>
+  <millis>1582026693836</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:51:33: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:51:49</date>
+  <millis>1582026709990</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:51:49: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:52:08</date>
+  <millis>1582026728893</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:52:08: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:53:20</date>
+  <millis>1582026800465</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:53:20: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:53:33</date>
+  <millis>1582026813899</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:53:33: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T11:54:44</date>
+  <millis>1582026884323</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 11:54:44: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T12:03:10</date>
+  <millis>1582027390929</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 12:03:10: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T12:04:55</date>
+  <millis>1582027495361</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 12:04:55: Log set up</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-18T12:07:02</date>
+  <millis>1582027622920</millis>
+  <sequence>1</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>18/02/2020 12:07:02: Log set up</message>
+</record>

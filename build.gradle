@@ -17,7 +17,6 @@ dependencies {
     // https://mvnrepository.com/artifact/org.json/json
     compile 'com.sparkjava:spark-core:2.3'
     //database
-    compile group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '8.2.0.jre8'
-
+    compile 'com.microsoft.sqlserver:mssql-jdbc:7.0.0.jre8'
 
 }
