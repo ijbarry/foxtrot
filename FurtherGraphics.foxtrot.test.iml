@@ -12,7 +12,7 @@
     <orderEntry type="module" module-name="FurtherGraphics.foxtrot.main" />
     <orderEntry type="library" name="Gradle: org.json:json:20190722" level="project" />
     <orderEntry type="library" name="Gradle: com.sparkjava:spark-core:2.3" level="project" />
-    <orderEntry type="library" name="Gradle: com.microsoft.sqlserver:mssql-jdbc:8.2.0.jre8" level="project" />
+    <orderEntry type="library" name="Gradle: com.microsoft.sqlserver:mssql-jdbc:7.0.0.jre8" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.12" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-simple:1.7.12" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.12" level="project" />

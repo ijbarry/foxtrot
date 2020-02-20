@@ -5,6 +5,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+
+import java.sql.DriverManager;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,6 +15,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 import java.math.BigDecimal;
 
@@ -62,10 +65,10 @@ public class API {
 
     private static void connectDB(){
         try {
-            connection = DriverManager.getConnection(DATABASE_URL);
+                connection = DriverManager.getConnection(DATABASE_URL);
         }
         catch (SQLException e){
-        log.severe(dtf.format(LocalDateTime.now())+ ":Failed to connect to database with error: " + e.getMessage());
+        log.severe(dtf.format(LocalDateTime.now())+ ":Failed to connect to database with SQL error: " + e.getMessage());
         }
     }
 
@@ -215,6 +218,56 @@ public class API {
             }
             catch(JSONException e){
                 log.warning(dtf.format(LocalDateTime.now())+":Error in parsing GET request to /api/map/*");
+                results = new JSONArray();
+                JSONObject result = new JSONObject();
+                result.put("error","Request parsing error");
+                result.put("complete",false);
+                results.put(result);
+                response.body(results.toString());
+            }
+            catch (SQLException f){
+                log.warning(dtf.format(LocalDateTime.now())+":Error in database connection: " + f.getMessage());
+                results = new JSONArray();
+                JSONObject result = new JSONObject();
+                result.put("error","Database connection error");
+                result.put("complete",false);
+                results.put(result);
+                response.body(results.toString());
+            }
+            return response;
+        });
+
+
+        get("/api/map/disease", (request, response) -> {
+            JSONObject reqBody = new JSONObject(request.body());
+            JSONArray results = new JSONArray();
+            try {
+                if (inUK( reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"))) {
+                    //DB request for info on body.get("disease"); in range
+                    String req = "SELECT (date, latitude, longitude, severity) FROM PestsAndDiseases WHERE name = ? AND category = 'Disease'";
+                    PreparedStatement p = connection.prepareStatement(req);
+                    p.setString(1, reqBody.optString("name"));
+                    ResultSet resultSet = p.executeQuery();
+
+                    // TODO: Filter by location and date
+                    while (resultSet.next()) {
+                        if(resultSet.getDate("date").toLocalDate().isAfter(LocalDate.now().minusDays(60))) {
+                            if(inRange(reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"),resultSet.getFloat("latitude"),resultSet.getFloat("longitude"))) {
+                                JSONObject result = new JSONObject();
+                                result.put("date", resultSet.getDate("date").toString());
+                                result.put("latitude", Math.round(resultSet.getFloat("latitude")*1000)/1000 );
+                                result.put("longitude", Math.round(resultSet.getFloat("longitude")*1000)/1000);
+                                result.put("severity", resultSet.getInt("severity"));
+                                results.put(result);
+                            }
+                        }
+                    }
+
+                    response.body(results.toString());
+                }
+            }
+            catch(JSONException e){
+                log.warning(dtf.format(LocalDateTime.now())+":Error in parsing GET request to /api/map/disease");
                 results = new JSONArray();
                 JSONObject result = new JSONObject();
                 result.put("error","Request parsing error");
