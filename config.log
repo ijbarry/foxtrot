@@ -315,3 +315,78 @@
   <message>18/02/2020 12:07:02: Log set up</message>
 </record>
 >>>>>>> ijbarry-master
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-20T10:18:08</date>
+  <millis>1582193888291</millis>
+  <sequence>0</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>20/02/2020 10:18:08: Log set up</message>
+</record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-20T10:33:56</date>
+  <millis>1582194836899</millis>
+  <sequence>0</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>20/02/2020 10:33:56: Log set up</message>
+</record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-20T10:35:33</date>
+  <millis>1582194933536</millis>
+  <sequence>0</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>20/02/2020 10:35:33: Log set up</message>
+</record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-20T10:37:25</date>
+  <millis>1582195045327</millis>
+  <sequence>0</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>20/02/2020 10:37:25: Log set up</message>
+</record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-20T11:03:35</date>
+  <millis>1582196615829</millis>
+  <sequence>0</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>20/02/2020 11:03:35: Log set up</message>
+</record>
+</log>

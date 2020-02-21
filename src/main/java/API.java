@@ -104,8 +104,8 @@ public class API {
             try {
                 if (inUK( reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"))) {        
                     
-                    String sql = "INSERT INTO PestsAndDiseases(report_id, category, date, latitude, longitude, name, description, image, solved, severity)"
-                            + "VALUES (?,?,?,?,?,?,?,?,?,?)";
+                    String sql = "INSERT INTO PestsAndDiseases(report_id, category, date, latitude, longitude, name, description, image, solved, severity, crop)"
+                            + "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
                     PreparedStatement p = connection.prepareStatement(sql);
                     p.setInt(1, reqBody.getInt("report_id"));
@@ -118,6 +118,7 @@ public class API {
                     p.setString(8, reqBody.optString("image"));
                     p.setString(9, reqBody.optString("solved"));
                     p.setString(10, reqBody.optString("severity"));
+                    p.setString(11, reqBody.optString("crop"));
 
                     p.execute(sql);
 
@@ -319,7 +320,10 @@ public class API {
                 response.body(results.toString());
             }
 
-            return response;
+            return response.body();
         });
+
+        // For testing - remember to remove?
+        get("/hello", (request, response) -> "Hello.");
     }
 }
