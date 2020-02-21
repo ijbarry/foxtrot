@@ -2,20 +2,36 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
+<<<<<<< HEAD
+  <date>2020-02-18T12:26:04</date>
+  <millis>1582028764858</millis>
+=======
   <date>2020-02-18T11:00:33</date>
   <millis>1582023633121</millis>
+>>>>>>> ijbarry-master
   <sequence>1</sequence>
   <logger>API</logger>
   <level>CONFIG</level>
   <class>API</class>
   <method>setUpLogs</method>
   <thread>1</thread>
+<<<<<<< HEAD
+  <message>18/02/2020 12:26:04: Log set up</message>
+</record>
+</log>
+=======
   <message>18/02/2020 11:00:33: Log set up</message>
 </record>
+>>>>>>> ijbarry-master
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
+<<<<<<< HEAD
+  <date>2020-02-19T16:44:30</date>
+  <millis>1582130670916</millis>
+  <sequence>0</sequence>
+=======
   <date>2020-02-18T11:04:38</date>
   <millis>1582023878502</millis>
   <sequence>1</sequence>
@@ -285,10 +301,17 @@
   <date>2020-02-18T12:07:02</date>
   <millis>1582027622920</millis>
   <sequence>1</sequence>
+>>>>>>> ijbarry-master
   <logger>API</logger>
   <level>CONFIG</level>
   <class>API</class>
   <method>setUpLogs</method>
   <thread>1</thread>
+<<<<<<< HEAD
+  <message>19/02/2020 16:44:30: Log set up</message>
+</record>
+</log>
+=======
   <message>18/02/2020 12:07:02: Log set up</message>
 </record>
+>>>>>>> ijbarry-master

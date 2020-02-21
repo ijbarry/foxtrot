@@ -32,11 +32,8 @@ public class API {
     private static String DATABASE_URL = "jdbc:sqlserver://localhost;"
             + "user=sa;"
             + "password=Foxtrot6;"
+            + "loginTimeout=30;" // <- This is timeout to establish connection, not keeping it.
             + "database=Prototype;";
-
-
-
-            // No login timeout rn - do we want this, or make new connection each time with timeout?
 
             // + "encrypt=true;"
             // + "trustServerCertificate=false;"
@@ -105,15 +102,15 @@ public class API {
             JSONObject reqBody = new JSONObject(request.body());
             JSONObject res = new JSONObject();
             try {
-                if (inUK( reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"))) {
-
-                    String sql = "INSERT INTO PestsAndDiseases(report_id, category, date, latitude, longitude, name, description, image, solved,severity)"
+                if (inUK( reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"))) {        
+                    
+                    String sql = "INSERT INTO PestsAndDiseases(report_id, category, date, latitude, longitude, name, description, image, solved, severity)"
                             + "VALUES (?,?,?,?,?,?,?,?,?,?)";
 
                     PreparedStatement p = connection.prepareStatement(sql);
                     p.setInt(1, reqBody.getInt("report_id"));
                     p.setString(2, reqBody.optString("category"));
-                    p.setDate(3, Date.valueOf( dtf.format(LocalDateTime.now())));
+                    p.setDate(3, Date.valueOf(LocalDate.now()));
                     p.setFloat(4, reqBody.optFloat("latitude"));
                     p.setFloat(5, reqBody.optFloat("longitude"));
                     p.setString(6, reqBody.optString("name"));
@@ -162,13 +159,13 @@ public class API {
                 preparedStatement.setInt(1, reqBody.optInt("report_id")*10 + (resultSet.getInt("total")+1));
                 preparedStatement.setString(2, reqBody.optString("description"));
                 preparedStatement.setString(3, reqBody.optString("image"));
-                preparedStatement.setDate(4, Date.valueOf( dtf.format(LocalDateTime.now())));
+                preparedStatement.setDate(4, Date.valueOf(LocalDate.now()));
                 preparedStatement.setInt(3, reqBody.optInt("severity"));
                 preparedStatement.execute();
 
                 String reportupdate = "INSERT INTO ReportUpdates(report_id,update_id) VALUES(?,?) ";
 
-                PreparedStatement update = connection.prepareStatement(insert);
+                PreparedStatement update = connection.prepareStatement(reportupdate);
                 update.setInt(1, reqBody.getInt("report_id"));
                 update.setInt(2, reqBody.getInt("report_id")*10 + (resultSet.getInt("total")+1));
                 update.execute();
@@ -287,6 +284,41 @@ public class API {
                 results.put(result);
                 response.body(results.toString());
             }
+            return response;
+        });
+
+        // Rename if you want - not sure what to call it.
+        get("/api/timeline", (request, response) -> {
+            JSONArray results = new JSONArray();
+
+            try {
+                int month = LocalDate.now().getMonthValue();
+                String sql = "SELECT name, category, crop FROM PestAndDiseaseInfo " +
+                    "JOIN Timeline ON (Timeline.pd_id = PestAndDiseaseInfo.pd_id)" +
+                    "WHERE month = ?";
+                PreparedStatement p = connection.prepareStatement(sql);
+                p.setInt(1, month);
+                ResultSet rs = p.executeQuery();
+
+                while (rs.next()) {
+                    JSONObject result = new JSONObject();
+                    result.put("name", rs.getString("name"));
+                    result.put("category", rs.getString("category"));
+                    result.put("crop", rs.getString("crop"));
+                    results.put(result);
+                }
+                
+                response.body(results.toString());
+            } catch (SQLException e) {
+                log.warning(dtf.format(LocalDateTime.now())+":Error in database connection: " + e.getMessage());
+                results = new JSONArray();
+                JSONObject result = new JSONObject();
+                result.put("error","Database connection error");
+                result.put("complete",false);
+                results.put(result);
+                response.body(results.toString());
+            }
+
             return response;
         });
     }
