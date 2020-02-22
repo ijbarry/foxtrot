@@ -202,7 +202,7 @@ public class API {
                     p.setString(1, reqBody.optString("name"));
                     ResultSet resultSet = p.executeQuery();
 
-                    // TODO: Filter by location and date
+                    // Filter by location and date
                     while (resultSet.next()) {
                         if(resultSet.getDate("date").toLocalDate().isAfter(LocalDate.now().minusDays(60))) {
                             if(inRange(reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"),resultSet.getFloat("latitude"),resultSet.getFloat("longitude"))) {
@@ -252,7 +252,7 @@ public class API {
                     p.setString(1, reqBody.optString("name"));
                     ResultSet resultSet = p.executeQuery();
 
-                    // TODO: Filter by location and date
+                    //  Filter by location and date
                     while (resultSet.next()) {
                         if(resultSet.getDate("date").toLocalDate().isAfter(LocalDate.now().minusDays(60))) {
                             if(inRange(reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"),resultSet.getFloat("latitude"),resultSet.getFloat("longitude"))) {
@@ -271,6 +271,57 @@ public class API {
             }
             catch(JSONException e){
                 log.warning(dtf.format(LocalDateTime.now())+":Error in parsing GET request to /api/map/disease");
+                results = new JSONArray();
+                JSONObject result = new JSONObject();
+                result.put("error","Request parsing error");
+                result.put("complete",false);
+                results.put(result);
+                response.body(results.toString());
+            }
+            catch (SQLException f){
+                log.warning(dtf.format(LocalDateTime.now())+":Error in database connection: " + f.getMessage());
+                results = new JSONArray();
+                JSONObject result = new JSONObject();
+                result.put("error","Database connection error");
+                result.put("complete",false);
+                results.put(result);
+                response.body(results.toString());
+            }
+            return response;
+        });
+
+
+        get("/api/local", (request, response) -> {
+            JSONObject reqBody = new JSONObject(request.body());
+            JSONArray results = new JSONArray();
+            try {
+                if (inUK( reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"))) {
+                    //DB request for info on body.get("pest"); in range
+                    String req = "SELECT (name, date, severity) FROM PestsAndDiseases WHERE date > ? AND ABSOLUTE (latitude - ?)<0.5 AND ABSOLUTE (longitude - ?)<0.5" +
+                            "GROUP BY (name) ORDER BY ABSOLUTE((latitude - ?)*(latitude - ?) + (longitude - ?)*(longitude - ?))";
+                    PreparedStatement p = connection.prepareStatement(req);
+                    p.setDate(1,  Date.valueOf( dtf.format(LocalDateTime.now().minusDays(14))));
+                    p.setFloat(2, reqBody.getFloat("latitude"));
+                    p.setFloat(3, reqBody.getFloat("longitude"));
+                    p.setFloat(4, reqBody.getFloat("latitude"));
+                    p.setFloat(5, reqBody.getFloat("latitude"));
+                    p.setFloat(6, reqBody.getFloat("longitude"));
+                    p.setFloat(7, reqBody.getFloat("longitude"));
+
+                    ResultSet resultSet = p.executeQuery();
+
+                    while (resultSet.next()) {
+                      JSONObject result = new JSONObject();
+                                result.put("name", resultSet.getString("name"));
+                                result.put("date", resultSet.getDate("date").toString());
+                                result.put("severity", resultSet.getInt("severity"));
+                                results.put(result);
+                    }
+                    response.body(results.toString());
+                }
+            }
+            catch(JSONException e){
+                log.warning(dtf.format(LocalDateTime.now())+":Error in parsing GET request to /api/map/*");
                 results = new JSONArray();
                 JSONObject result = new JSONObject();
                 result.put("error","Request parsing error");
