@@ -56,21 +56,40 @@ public class BackendPrototype {
             // p.setString(10, "3");
             // p.executeUpdate();
 
-            int month = LocalDate.now().getMonthValue();
-                String sql = "SELECT name, category, crop FROM PestAndDiseaseInfo " +
-                    "JOIN Timeline ON (Timeline.pd_id = PestAndDiseaseInfo.pd_id)" +
-                    "WHERE month = ?";
-                PreparedStatement p = connection.prepareStatement(sql);
-                p.setInt(1, month);
-                ResultSet rs = p.executeQuery();
+            // int month = LocalDate.now().getMonthValue();
+            // String sql = "SELECT name, category, crop FROM PestAndDiseaseInfo " +
+            //     "JOIN Timeline ON (Timeline.pd_id = PestAndDiseaseInfo.pd_id)" +
+            //     "WHERE month = ?";
+            // PreparedStatement p = connection.prepareStatement(sql);
+            // p.setInt(1, month);
+            // ResultSet rs = p.executeQuery();
 
-                while (rs.next()) {
-                    System.out.println(
-                        "Name: " + rs.getString("name") +
-                        " Category: " + rs.getString("category") +
-                        " Crop: " + rs.getString("crop")
-                    );
-                }
+            // while (rs.next()) {
+            //     System.out.println(
+            //         "Name: " + rs.getString("name") +
+            //         " Category: " + rs.getString("category") +
+            //         " Crop: " + rs.getString("crop")
+            //     );
+            // }
+
+            String req = "SELECT name, date, severity FROM PestsAndDiseases WHERE date > ? AND ABS (latitude - ?) < 0.5 AND ABS (longitude - ?) < 0.5" +
+                "ORDER BY ABS ((latitude - ?) * (latitude - ?) + (longitude - ?) * (longitude - ?))";
+            PreparedStatement p = connection.prepareStatement(req);
+            p.setDate(1, Date.valueOf(LocalDate.now().minusDays(14)));
+            p.setFloat(2, 1.34f);
+            p.setFloat(3, 3.14f);
+            p.setFloat(4, 1.34f);
+            p.setFloat(5, 1.34f);
+            p.setFloat(6, 3.14f);
+            p.setFloat(7, 3.14f);
+
+            ResultSet resultSet = p.executeQuery();
+
+            while (resultSet.next()) {
+                System.out.println("Name: " + resultSet.getString("name"));
+                System.out.println("Date: " + resultSet.getString("date"));
+                System.out.println("Severity: " + resultSet.getString("severity"));
+            }
             
         } catch (SQLException e) {
             e.printStackTrace();

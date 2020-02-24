@@ -390,3 +390,18 @@
   <message>20/02/2020 11:03:35: Log set up</message>
 </record>
 </log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-02-24T22:17:31</date>
+  <millis>1582582651974</millis>
+  <sequence>0</sequence>
+  <logger>API</logger>
+  <level>CONFIG</level>
+  <class>API</class>
+  <method>setUpLogs</method>
+  <thread>1</thread>
+  <message>24/02/2020 22:17:31: Log set up</message>
+</record>
+</log>

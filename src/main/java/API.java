@@ -298,10 +298,10 @@ public class API {
             try {
                 if (inUK( reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"))) {
                     //DB request for info on body.get("pest"); in range
-                    String req = "SELECT (name, date, severity) FROM PestsAndDiseases WHERE date > ? AND ABSOLUTE (latitude - ?)<0.5 AND ABSOLUTE (longitude - ?)<0.5" +
-                            "GROUP BY (name) ORDER BY ABSOLUTE((latitude - ?)*(latitude - ?) + (longitude - ?)*(longitude - ?))";
+                    String req = "SELECT name, date, severity FROM PestsAndDiseases WHERE date > ? AND ABS (latitude - ?) < 0.5 AND ABS (longitude - ?) < 0.5" +
+                        "ORDER BY ABS ((latitude - ?) * (latitude - ?) + (longitude - ?) * (longitude - ?))";
                     PreparedStatement p = connection.prepareStatement(req);
-                    p.setDate(1,  Date.valueOf( dtf.format(LocalDateTime.now().minusDays(14))));
+                    p.setDate(1,  Date.valueOf(LocalDate.now().minusDays(14)));
                     p.setFloat(2, reqBody.getFloat("latitude"));
                     p.setFloat(3, reqBody.getFloat("longitude"));
                     p.setFloat(4, reqBody.getFloat("latitude"));
