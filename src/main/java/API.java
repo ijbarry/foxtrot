@@ -259,7 +259,7 @@ public class API {
                             if(inRange(reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"),resultSet.getFloat("latitude"),resultSet.getFloat("longitude"))) {
                                 JSONObject result = new JSONObject();
                                 result.put("date", resultSet.getDate("date").toString());
-                                result.put("latitude", Math.round(resultSet.getFloat("latitude")*1000)/1000 );
+                                result.put("latitude", Math.round(resultSet.getFloat("latitude")*1000)/1000);
                                 result.put("longitude", Math.round(resultSet.getFloat("longitude")*1000)/1000);
                                 result.put("severity", resultSet.getInt("severity"));
                                 results.put(result);
@@ -347,16 +347,16 @@ public class API {
             try {
                 if (inUK( reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"))) {
                     //DB request for info on body.get("pest"); in range
-                    String req = "SELECT name, date, severity FROM PestsAndDiseases WHERE date > ? AND ABS (latitude - ?) < 0.5 AND ABS (longitude - ?) < 0.5" +
-                        "ORDER BY ABS ((latitude - ?) * (latitude - ?) + (longitude - ?) * (longitude - ?))";
+                    String req = "SELECT DISTINCT name, date, severity, ABS ((latitude - ?) * (latitude - ?) + (longitude - ?) * (longitude - ?)) as distance" +
+                        " FROM PestsAndDiseases WHERE date > ? AND ABS (latitude - ?) < 0.5 AND ABS (longitude - ?) < 0.5 ORDER BY distance";
                     PreparedStatement p = connection.prepareStatement(req);
-                    p.setDate(1,  Date.valueOf(LocalDate.now().minusDays(14)));
+                    p.setDate(5,  Date.valueOf(LocalDate.now().minusDays(14)));
+                    p.setFloat(6, reqBody.getFloat("latitude"));
+                    p.setFloat(7, reqBody.getFloat("longitude"));
+                    p.setFloat(1, reqBody.getFloat("latitude"));
                     p.setFloat(2, reqBody.getFloat("latitude"));
                     p.setFloat(3, reqBody.getFloat("longitude"));
-                    p.setFloat(4, reqBody.getFloat("latitude"));
-                    p.setFloat(5, reqBody.getFloat("latitude"));
-                    p.setFloat(6, reqBody.getFloat("longitude"));
-                    p.setFloat(7, reqBody.getFloat("longitude"));
+                    p.setFloat(4, reqBody.getFloat("longitude"));
 
                     ResultSet resultSet = p.executeQuery();
 
