@@ -107,8 +107,8 @@ public class API {
             try {
                 if (inUK( reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"))) {
 
-                    String sql = "INSERT INTO PestsAndDiseases(report_id, category, date, latitude, longitude, name, description, image, solved,severity)"
-                            + "VALUES (?,?,?,?,?,?,?,?,?,?)";
+                    String sql = "INSERT INTO PestsAndDiseases(report_id, category, date, latitude, longitude, name, description, image, solved, severity, crop)"
+                            + "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
                     PreparedStatement p = connection.prepareStatement(sql);
                     p.setInt(1, reqBody.getInt("report_id"));
@@ -169,7 +169,7 @@ public class API {
 
                 String reportupdate = "INSERT INTO ReportUpdates(report_id,update_id) VALUES(?,?) ";
 
-                PreparedStatement update = connection.prepareStatement(insert);
+                PreparedStatement update = connection.prepareStatement(reportupdate);
                 update.setInt(1, reqBody.getInt("report_id"));
                 update.setInt(2, reqBody.getInt("report_id")*10 + (resultSet.getInt("total")+1));
                 update.execute();
@@ -291,6 +291,55 @@ public class API {
             return response;
         });
 
+        get("/api/map/both", (request, response) -> {
+            JSONObject reqBody = new JSONObject(request.body());
+            JSONArray results = new JSONArray();
+            try {
+                if (inUK( reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"))) {
+                    //DB request for info on body.get("pest"); in range
+                    String req = "SELECT (date, latitude, longitude, severity, category) FROM PestsAndDiseases WHERE name = ?";
+                    PreparedStatement p = connection.prepareStatement(req);
+                    p.setString(1, reqBody.optString("name"));
+                    ResultSet resultSet = p.executeQuery();
+
+                    // Filter by location and date
+                    while (resultSet.next()) {
+                        if(resultSet.getDate("date").toLocalDate().isAfter(LocalDate.now().minusDays(60))) {
+                            if(inRange(reqBody.getFloat("latitude"),  reqBody.getFloat("longitude"),resultSet.getFloat("latitude"),resultSet.getFloat("longitude"))) {
+                                JSONObject result = new JSONObject();
+                                result.put("date", resultSet.getDate("date").toString());
+                                result.put("latitude", Math.round(resultSet.getFloat("latitude")*1000)/1000 );
+                                result.put("longitude", Math.round(resultSet.getFloat("longitude")*1000)/1000);
+                                result.put("severity", resultSet.getInt("severity"));
+                                result.put("category", resultSet.getString("category"));
+                                results.put(result);
+                            }
+                        }
+                    }
+
+                    response.body(results.toString());
+                }
+            }
+            catch(JSONException e){
+                log.warning(dtf.format(LocalDateTime.now())+":Error in parsing GET request to /api/map/*");
+                results = new JSONArray();
+                JSONObject result = new JSONObject();
+                result.put("error","Request parsing error");
+                result.put("complete",false);
+                results.put(result);
+                response.body(results.toString());
+            }
+            catch (SQLException f){
+                log.warning(dtf.format(LocalDateTime.now())+":Error in database connection: " + f.getMessage());
+                results = new JSONArray();
+                JSONObject result = new JSONObject();
+                result.put("error","Database connection error");
+                result.put("complete",false);
+                results.put(result);
+                response.body(results.toString());
+            }
+            return response;
+        });
 
         get("/api/local", (request, response) -> {
             JSONObject reqBody = new JSONObject(request.body());
