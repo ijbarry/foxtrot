@@ -2,23 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70faf6f1-baa8-461b-95a4-deb5803731bd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/main/API.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/main/API.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/main/BackendPrototype.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/main/BackendPrototype.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/API.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/API.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/BackendPrototype.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/BackendPrototype.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/foxtrot-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/foxtrot-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.log" beforeDir="false" afterPath="$PROJECT_DIR$/config.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error.log" beforeDir="false" afterPath="$PROJECT_DIR$/error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/foxtrot.iws" beforeDir="false" afterPath="$PROJECT_DIR$/foxtrot.iws" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/API.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/API.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/BackendPrototype.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BackendPrototype.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -204,6 +189,7 @@
       <workItem from="1582130114646" duration="217000" />
       <workItem from="1582286936066" duration="342000" />
       <workItem from="1582392946194" duration="4209000" />
+      <workItem from="1582630288798" duration="2684000" />
     </task>
     <task id="LOCAL-00001" summary="API beginning">
       <created>1581419284480</created>
