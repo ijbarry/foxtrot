@@ -189,7 +189,7 @@
       <workItem from="1582130114646" duration="217000" />
       <workItem from="1582286936066" duration="342000" />
       <workItem from="1582392946194" duration="4209000" />
-      <workItem from="1582630288798" duration="2684000" />
+      <workItem from="1582630288798" duration="3937000" />
     </task>
     <task id="LOCAL-00001" summary="API beginning">
       <created>1581419284480</created>
@@ -226,7 +226,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582400507893</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Float to double">
+      <created>1582633562234</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1582633562234</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -251,6 +258,7 @@
     <MESSAGE value="Get request complete, needs testing" />
     <MESSAGE value="Get request for pest and disease separate, complete, needs testing" />
     <MESSAGE value="Get request for local pests/diseases" />
-    <option name="LAST_COMMIT_MESSAGE" value="Get request for local pests/diseases" />
+    <MESSAGE value="Float to double" />
+    <option name="LAST_COMMIT_MESSAGE" value="Float to double" />
   </component>
 </project>

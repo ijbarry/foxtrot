@@ -158,7 +158,7 @@ public class API {
                 while(!good){
                     update_id = random.nextInt(Integer.MAX_VALUE);
                     PreparedStatement check = connection.prepareStatement("SELECT COUNT(*) AS total from ReportUpdates WHERE update_id="+update_id);
-                    ResultSet r = prep.executeQuery();
+                    ResultSet r = check.executeQuery();
                     if(r.getInt("total") == 0){
                         good=true;
                     }
@@ -399,6 +399,23 @@ public class API {
         });
 
         // For testing - remember to remove?
-        get("/hello", (request, response) -> "Hello.");
+        get("/check", (request, response) -> {
+            JSONObject reqBody = new JSONObject(request.body());
+            JSONObject result = new JSONObject();
+            Random random = new Random();
+            int report_id= reqBody.getInt("report_id");
+            PreparedStatement check = connection.prepareStatement("SELECT COUNT(*) AS total from PestsAndDiseases WHERE report_id="+report_id);
+            ResultSet r = check.executeQuery();
+            if(r.getInt("total") == 0){
+                result.put("request_id",report_id);
+                result.put("complete",true);
+            }
+            else{
+                result.put("complete",false);
+            }
+            response.body(result.toString());
+            return response;
+
+        });
     }
 }
