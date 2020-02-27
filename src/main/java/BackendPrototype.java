@@ -72,16 +72,16 @@ public class BackendPrototype {
             //     );
             // }
 
-            String req = "SELECT name, date, severity FROM PestsAndDiseases WHERE date > ? AND ABS (latitude - ?) < 0.5 AND ABS (longitude - ?) < 0.5" +
-                "ORDER BY ABS ((latitude - ?) * (latitude - ?) + (longitude - ?) * (longitude - ?))";
+            String req = "SELECT DISTINCT name, date, severity, ABS ((latitude - ?) * (latitude - ?) + (longitude - ?) * (longitude - ?)) as distance FROM PestsAndDiseases WHERE date > ? AND ABS (latitude - ?) < 0.5 AND ABS (longitude - ?) < 0.5" +
+                "ORDER BY distance";
             PreparedStatement p = connection.prepareStatement(req);
-            p.setDate(1, Date.valueOf(LocalDate.now().minusDays(14)));
+            p.setDate(5, Date.valueOf(LocalDate.now().minusDays(14)));
+            p.setFloat(6, 1.34f);
+            p.setFloat(7, 3.14f);
+            p.setFloat(1, 1.34f);
             p.setFloat(2, 1.34f);
             p.setFloat(3, 3.14f);
-            p.setFloat(4, 1.34f);
-            p.setFloat(5, 1.34f);
-            p.setFloat(6, 3.14f);
-            p.setFloat(7, 3.14f);
+            p.setFloat(4, 3.14f);
 
             ResultSet resultSet = p.executeQuery();
 

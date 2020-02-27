@@ -266,8 +266,8 @@ public class API {
                             if(inRange(reqBody.getDouble("latitude"),  reqBody.getDouble("longitude"), (double)resultSet.getFloat("latitude"),(double)resultSet.getFloat("longitude"))) {
                                 JSONObject result = new JSONObject();
                                 result.put("date", resultSet.getDate("date").toString());
-                                result.put("latitude", (double) Math.round(resultSet.getFloat("latitude")*1000)/1000 );
-                                result.put("longitude", (double) Math.round(resultSet.getFloat("longitude")*1000)/1000);
+                                result.put("latitude", Math.round(resultSet.getFloat("latitude")*1000)/1000);
+                                result.put("longitude", Math.round(resultSet.getFloat("longitude")*1000)/1000);
                                 result.put("severity", resultSet.getInt("severity"));
                                 results.put(result);
                             }
@@ -354,16 +354,16 @@ public class API {
             try {
                 if (inUK( reqBody.getDouble("latitude"),  reqBody.getDouble("longitude"))) {
                     //DB request for info on body.get("pest"); in range
-                    String req = "SELECT name, date, severity,latitude,longitude FROM PestsAndDiseases WHERE date > ? AND ABS (latitude - ?) < 0.5 AND ABS (longitude - ?) < 0.5" +
-                        "ORDER BY ABS ((latitude - ?) * (latitude - ?) + (longitude - ?) * (longitude - ?))";
+                    String req = "SELECT DISTINCT name, date, severity, ABS ((latitude - ?) * (latitude - ?) + (longitude - ?) * (longitude - ?)) as distance" +
+                        " FROM PestsAndDiseases WHERE date > ? AND ABS (latitude - ?) < 0.5 AND ABS (longitude - ?) < 0.5 ORDER BY distance";
                     PreparedStatement p = connection.prepareStatement(req);
-                    p.setDate(1,  Date.valueOf(LocalDate.now().minusDays(14)));
-                    p.setFloat(2, (float) reqBody.getDouble("latitude"));
-                    p.setFloat(3, (float) reqBody.getDouble("longitude"));
-                    p.setFloat(4, (float) reqBody.getDouble("latitude"));
-                    p.setFloat(5, (float) reqBody.getDouble("latitude"));
-                    p.setFloat(6, (float) reqBody.getDouble("longitude"));
-                    p.setFloat(7, (float) reqBody.getDouble("longitude"));
+                    p.setDate(5,  Date.valueOf(LocalDate.now().minusDays(14)));
+                    p.setFloat(6, reqBody.getFloat("latitude"));
+                    p.setFloat(7, reqBody.getFloat("longitude"));
+                    p.setFloat(1, reqBody.getFloat("latitude"));
+                    p.setFloat(2, reqBody.getFloat("latitude"));
+                    p.setFloat(3, reqBody.getFloat("longitude"));
+                    p.setFloat(4, reqBody.getFloat("longitude"));
 
                     ResultSet resultSet = p.executeQuery();
 
