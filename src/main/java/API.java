@@ -200,8 +200,6 @@ public class API {
         });
 
         get("/api/map/pest", (request, response) -> {
-            JSONObject reqBody = new JSONObject(request.body());
-            request.params("latitude");
             JSONArray results = new JSONArray();
             try {
                 if (inUK( Double.parseDouble(request.params("latitude")),  Double.parseDouble(request.params("longitude")))) {
@@ -224,8 +222,12 @@ public class API {
                             }
                         }
                     }
-
-                    response.body(results.toString());
+                    if(results.isEmpty()){
+                        response.body("");
+                    }
+                    else {
+                        response.body(results.toString());
+                    }
                 }
             }
             catch(JSONException e){
@@ -254,7 +256,7 @@ public class API {
             JSONObject reqBody = new JSONObject(request.body());
             JSONArray results = new JSONArray();
             try {
-                if (inUK( reqBody.getDouble("latitude"),  reqBody.getDouble("longitude"))) {
+                if (inUK( Double.parseDouble(request.params("latitude")), Double.parseDouble(request.params("longitude")) )) {
                     //DB request for info on body.get("disease"); in range
                     String req = "SELECT (date, latitude, longitude, severity) FROM PestsAndDiseases WHERE name = ? AND category = 'Disease'";
                     PreparedStatement p = connection.prepareStatement(req);
@@ -264,7 +266,7 @@ public class API {
                     //  Filter by location and date
                     while (resultSet.next()) {
                         if(resultSet.getDate("date").toLocalDate().isAfter(LocalDate.now().minusDays(60))) {
-                            if(inRange(reqBody.getDouble("latitude"),  reqBody.getDouble("longitude"), (double)resultSet.getFloat("latitude"),(double)resultSet.getFloat("longitude"))) {
+                            if(inRange(Double.parseDouble(request.params("latitude")),  Double.parseDouble(request.params("longitude")), (double)resultSet.getFloat("latitude"),(double)resultSet.getFloat("longitude"))) {
                                 JSONObject result = new JSONObject();
                                 result.put("date", resultSet.getDate("date").toString());
                                 result.put("latitude", Math.round(resultSet.getFloat("latitude")*1000)/1000);
@@ -303,7 +305,7 @@ public class API {
             JSONObject reqBody = new JSONObject(request.body());
             JSONArray results = new JSONArray();
             try {
-                if (inUK( reqBody.getDouble("latitude"),  reqBody.getDouble("longitude"))) {
+                if (inUK( Double.parseDouble(request.params("latitude")),  Double.parseDouble(request.params("longitude")))) {
                     //DB request for info on body.get("pest"); in range
                     String req = "SELECT (date, latitude, longitude, severity, category) FROM PestsAndDiseases WHERE name = ?";
                     PreparedStatement p = connection.prepareStatement(req);
@@ -313,7 +315,7 @@ public class API {
                     // Filter by location and date
                     while (resultSet.next()) {
                         if(resultSet.getDate("date").toLocalDate().isAfter(LocalDate.now().minusDays(60))) {
-                            if(inRange(reqBody.getDouble("latitude"),  reqBody.getDouble("longitude"), (double) resultSet.getFloat("latitude"),(double) resultSet.getFloat("longitude"))) {
+                            if(inRange(Double.parseDouble(request.params("latitude")),  Double.parseDouble(request.params("longitude")), (double) resultSet.getFloat("latitude"),(double) resultSet.getFloat("longitude"))) {
                                 JSONObject result = new JSONObject();
                                 result.put("date", resultSet.getDate("date").toString());
                                 result.put("latitude", (double) Math.round(resultSet.getFloat("latitude")*1000)/1000 );
@@ -350,21 +352,20 @@ public class API {
         });
 
         get("/api/local", (request, response) -> {
-            JSONObject reqBody = new JSONObject(request.body());
             JSONArray results = new JSONArray();
             try {
-                if (inUK( reqBody.getDouble("latitude"),  reqBody.getDouble("longitude"))) {
+                if (inUK( Double.parseDouble(request.params("latitude")),  Double.parseDouble(request.params("longitude")))) {
                     //DB request for info on body.get("pest"); in range
                     String req = "SELECT DISTINCT name, date, severity, ABS ((latitude - ?) * (latitude - ?) + (longitude - ?) * (longitude - ?)) as distance" +
                         " FROM PestsAndDiseases WHERE date > ? AND ABS (latitude - ?) < 0.5 AND ABS (longitude - ?) < 0.5 ORDER BY distance";
                     PreparedStatement p = connection.prepareStatement(req);
                     p.setDate(5,  Date.valueOf(LocalDate.now().minusDays(14)));
-                    p.setFloat(6, reqBody.getFloat("latitude"));
-                    p.setFloat(7, reqBody.getFloat("longitude"));
-                    p.setFloat(1, reqBody.getFloat("latitude"));
-                    p.setFloat(2, reqBody.getFloat("latitude"));
-                    p.setFloat(3, reqBody.getFloat("longitude"));
-                    p.setFloat(4, reqBody.getFloat("longitude"));
+                    p.setFloat(6, (float) Double.parseDouble(request.params("latitude")));
+                    p.setFloat(7, (float) Double.parseDouble(request.params("longitude")));
+                    p.setFloat(1, (float) Double.parseDouble(request.params("latitude")));
+                    p.setFloat(2, (float) Double.parseDouble(request.params("latitude")));
+                    p.setFloat(3, (float) Double.parseDouble(request.params("longitude")));
+                    p.setFloat(4, (float) Double.parseDouble(request.params("longitude")));
 
                     ResultSet resultSet = p.executeQuery();
 
@@ -403,10 +404,9 @@ public class API {
 
         // For testing - remember to remove?
         get("/check", (request, response) -> {
-            JSONObject reqBody = new JSONObject(request.body());
             JSONObject result = new JSONObject();
             Random random = new Random();
-            int report_id= reqBody.getInt("report_id");
+            int report_id= Integer.parseInt(request.params("report_id"));
             PreparedStatement check = connection.prepareStatement("SELECT COUNT(*) AS total from PestsAndDiseases WHERE report_id="+report_id);
             ResultSet r = check.executeQuery();
             if(r.getInt("total") == 0){
