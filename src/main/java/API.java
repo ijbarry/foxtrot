@@ -201,19 +201,20 @@ public class API {
 
         get("/api/map/pest", (request, response) -> {
             JSONObject reqBody = new JSONObject(request.body());
+            request.params("latitude");
             JSONArray results = new JSONArray();
             try {
-                if (inUK( reqBody.getDouble("latitude"),  reqBody.getDouble("longitude"))) {
+                if (inUK( Double.parseDouble(request.params("latitude")),  Double.parseDouble(request.params("longitude")))) {
                     //DB request for info on body.get("pest"); in range
                     String req = "SELECT (date, latitude, longitude, severity) FROM PestsAndDiseases WHERE name = ? AND category = 'Pest'";
                     PreparedStatement p = connection.prepareStatement(req);
-                    p.setString(1, reqBody.optString("name"));
+                    p.setString(1, request.params("name"));
                     ResultSet resultSet = p.executeQuery();
 
                     // Filter by location and date
                     while (resultSet.next()) {
                         if(resultSet.getDate("date").toLocalDate().isAfter(LocalDate.now().minusDays(60))) {
-                            if(inRange(reqBody.getDouble("latitude"),  reqBody.getDouble("longitude"),(double) resultSet.getFloat("latitude"),(double) resultSet.getFloat("longitude"))) {
+                            if(inRange(Double.parseDouble(request.params("latitude")),  Double.parseDouble(request.params("longitude")),(double) resultSet.getFloat("latitude"),(double) resultSet.getFloat("longitude"))) {
                                 JSONObject result = new JSONObject();
                                 result.put("date", resultSet.getDate("date").toString());
                                 result.put("latitude", (double) Math.round(resultSet.getFloat("latitude")*1000)/1000 );
