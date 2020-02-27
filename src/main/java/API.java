@@ -354,7 +354,7 @@ public class API {
             try {
                 if (inUK( reqBody.getDouble("latitude"),  reqBody.getDouble("longitude"))) {
                     //DB request for info on body.get("pest"); in range
-                    String req = "SELECT name, date, severity FROM PestsAndDiseases WHERE date > ? AND ABS (latitude - ?) < 0.5 AND ABS (longitude - ?) < 0.5" +
+                    String req = "SELECT name, date, severity,latitude,longitude FROM PestsAndDiseases WHERE date > ? AND ABS (latitude - ?) < 0.5 AND ABS (longitude - ?) < 0.5" +
                         "ORDER BY ABS ((latitude - ?) * (latitude - ?) + (longitude - ?) * (longitude - ?))";
                     PreparedStatement p = connection.prepareStatement(req);
                     p.setDate(1,  Date.valueOf(LocalDate.now().minusDays(14)));
@@ -370,6 +370,8 @@ public class API {
                     while (resultSet.next()) {
                       JSONObject result = new JSONObject();
                                 result.put("name", resultSet.getString("name"));
+                                result.put("latitude", (double) Math.round(resultSet.getFloat("latitude")));
+                                result.put("longitude", (double) Math.round(resultSet.getFloat("longitude")));
                                 result.put("date", resultSet.getDate("date").toString());
                                 result.put("severity", resultSet.getInt("severity"));
                                 results.put(result);
