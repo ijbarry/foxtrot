@@ -370,6 +370,8 @@ public class API {
                     while (resultSet.next()) {
                       JSONObject result = new JSONObject();
                                 result.put("name", resultSet.getString("name"));
+                                result.put("latitude", (double) Math.round(resultSet.getFloat("latitude")));
+                                result.put("longitude", (double) Math.round(resultSet.getFloat("longitude")));
                                 result.put("date", resultSet.getDate("date").toString());
                                 result.put("severity", resultSet.getInt("severity"));
                                 results.put(result);
