@@ -129,9 +129,8 @@ public class API {
                 log.warning(dtf.format(LocalDateTime.now())+":Error in parsing POST request to /api/new");
                 res.put("error","Request parsing error");
                 res.put("complete",false);
-                response.body(res.toString());
             }
-            return response;
+            return res.toString();
         });
 
         post("/api/update",(request, response) -> {
@@ -147,8 +146,7 @@ public class API {
                     if(resultSet.getInt("total") >= UPDATE_LIMIT){
                         res.append("error","Update limit reached");
                         res.append("complete",false);
-                        response.body(res.toString());
-                        return response;
+                        return res.toString();
                     }
 
                     //GENERATE RANDOM UPDATE ID AND CHECK
@@ -182,37 +180,34 @@ public class API {
                 update.execute();
 
                 res.append("complete",true);
-                response.body(res.toString());
             }
             catch(JSONException e){
                 log.warning(dtf.format(LocalDateTime.now())+":Error in parsing POST request to /api/update" + e.getMessage());
                 res.put("error","Request parsing error");
                 res.put("complete",false);
-                response.body(res.toString());
             }
             catch (SQLException f){
                 log.warning(dtf.format(LocalDateTime.now())+":Error in database connection: " + f.getMessage());
                 res.put("error","Database connection error");
                 res.put("complete",false);
-                response.body(res.toString());
             }
-            return response;
+            return res.toString();
         });
 
         get("/api/map/pest", (request, response) -> {
             JSONArray results = new JSONArray();
             try {
-                if (inUK( Double.parseDouble(request.params("latitude")),  Double.parseDouble(request.params("longitude")))) {
+                if (inUK( Double.parseDouble(request.queryParams("latitude")),  Double.parseDouble(request.queryParams("longitude")))) {
                     //DB request for info on body.get("pest"); in range
                     String req = "SELECT (date, latitude, longitude, severity) FROM PestsAndDiseases WHERE name = ? AND category = 'Pest'";
                     PreparedStatement p = connection.prepareStatement(req);
-                    p.setString(1, request.params("name"));
+                    p.setString(1, request.queryParams("name"));
                     ResultSet resultSet = p.executeQuery();
 
                     // Filter by location and date
                     while (resultSet.next()) {
                         if(resultSet.getDate("date").toLocalDate().isAfter(LocalDate.now().minusDays(60))) {
-                            if(inRange(Double.parseDouble(request.params("latitude")),  Double.parseDouble(request.params("longitude")),(double) resultSet.getFloat("latitude"),(double) resultSet.getFloat("longitude"))) {
+                            if(inRange(Double.parseDouble(request.queryParams("latitude")),  Double.parseDouble(request.queryParams("longitude")),(double) resultSet.getFloat("latitude"),(double) resultSet.getFloat("longitude"))) {
                                 JSONObject result = new JSONObject();
                                 result.put("date", resultSet.getDate("date").toString());
                                 result.put("latitude", (double) Math.round(resultSet.getFloat("latitude")*1000)/1000 );
@@ -223,21 +218,17 @@ public class API {
                         }
                     }
                     if(results.isEmpty()){
-                        response.body("");
-                    }
-                    else {
-                        response.body(results.toString());
+                        return "";
                     }
                 }
             }
-            catch(JSONException e){
+            catch(JSONException|NullPointerException e){
                 log.warning(dtf.format(LocalDateTime.now())+":Error in parsing GET request to /api/map/*");
                 results = new JSONArray();
                 JSONObject result = new JSONObject();
                 result.put("error","Request parsing error");
                 result.put("complete",false);
                 results.put(result);
-                response.body(results.toString());
             }
             catch (SQLException f){
                 log.warning(dtf.format(LocalDateTime.now())+":Error in database connection: " + f.getMessage());
@@ -246,27 +237,25 @@ public class API {
                 result.put("error","Database connection error");
                 result.put("complete",false);
                 results.put(result);
-                response.body(results.toString());
             }
-            return response;
+            return results.toString();
         });
 
 
         get("/api/map/disease", (request, response) -> {
-            JSONObject reqBody = new JSONObject(request.body());
             JSONArray results = new JSONArray();
             try {
-                if (inUK( Double.parseDouble(request.params("latitude")), Double.parseDouble(request.params("longitude")) )) {
+                if (inUK( Double.parseDouble(request.queryParams("latitude")), Double.parseDouble(request.queryParams("longitude")) )) {
                     //DB request for info on body.get("disease"); in range
                     String req = "SELECT (date, latitude, longitude, severity) FROM PestsAndDiseases WHERE name = ? AND category = 'Disease'";
                     PreparedStatement p = connection.prepareStatement(req);
-                    p.setString(1, reqBody.optString("name"));
+                    p.setString(1, request.queryParams("name"));
                     ResultSet resultSet = p.executeQuery();
 
                     //  Filter by location and date
                     while (resultSet.next()) {
                         if(resultSet.getDate("date").toLocalDate().isAfter(LocalDate.now().minusDays(60))) {
-                            if(inRange(Double.parseDouble(request.params("latitude")),  Double.parseDouble(request.params("longitude")), (double)resultSet.getFloat("latitude"),(double)resultSet.getFloat("longitude"))) {
+                            if(inRange(Double.parseDouble(request.queryParams("latitude")),  Double.parseDouble(request.queryParams("longitude")), (double)resultSet.getFloat("latitude"),(double)resultSet.getFloat("longitude"))) {
                                 JSONObject result = new JSONObject();
                                 result.put("date", resultSet.getDate("date").toString());
                                 result.put("latitude", Math.round(resultSet.getFloat("latitude")*1000)/1000);
@@ -277,17 +266,15 @@ public class API {
                         }
                     }
 
-                    response.body(results.toString());
                 }
             }
-            catch(JSONException e){
+            catch(JSONException|NullPointerException e){
                 log.warning(dtf.format(LocalDateTime.now())+":Error in parsing GET request to /api/map/disease");
                 results = new JSONArray();
                 JSONObject result = new JSONObject();
                 result.put("error","Request parsing error");
                 result.put("complete",false);
                 results.put(result);
-                response.body(results.toString());
             }
             catch (SQLException f){
                 log.warning(dtf.format(LocalDateTime.now())+":Error in database connection: " + f.getMessage());
@@ -296,26 +283,25 @@ public class API {
                 result.put("error","Database connection error");
                 result.put("complete",false);
                 results.put(result);
-                response.body(results.toString());
             }
-            return response;
+            return results.toString();
         });
 
         get("/api/map/both", (request, response) -> {
             JSONObject reqBody = new JSONObject(request.body());
             JSONArray results = new JSONArray();
             try {
-                if (inUK( Double.parseDouble(request.params("latitude")),  Double.parseDouble(request.params("longitude")))) {
+                if (inUK( Double.parseDouble(request.queryParams("latitude")),  Double.parseDouble(request.queryParams("longitude")))) {
                     //DB request for info on body.get("pest"); in range
                     String req = "SELECT (date, latitude, longitude, severity, category) FROM PestsAndDiseases WHERE name = ?";
                     PreparedStatement p = connection.prepareStatement(req);
-                    p.setString(1, reqBody.optString("name"));
+                    p.setString(1, request.queryParams("name"));
                     ResultSet resultSet = p.executeQuery();
 
                     // Filter by location and date
                     while (resultSet.next()) {
                         if(resultSet.getDate("date").toLocalDate().isAfter(LocalDate.now().minusDays(60))) {
-                            if(inRange(Double.parseDouble(request.params("latitude")),  Double.parseDouble(request.params("longitude")), (double) resultSet.getFloat("latitude"),(double) resultSet.getFloat("longitude"))) {
+                            if(inRange(Double.parseDouble(request.queryParams("latitude")),  Double.parseDouble(request.queryParams("longitude")), (double) resultSet.getFloat("latitude"),(double) resultSet.getFloat("longitude"))) {
                                 JSONObject result = new JSONObject();
                                 result.put("date", resultSet.getDate("date").toString());
                                 result.put("latitude", (double) Math.round(resultSet.getFloat("latitude")*1000)/1000 );
@@ -327,17 +313,16 @@ public class API {
                         }
                     }
 
-                    response.body(results.toString());
+                    return results.toString();
                 }
             }
-            catch(JSONException e){
+            catch(JSONException|NullPointerException e){
                 log.warning(dtf.format(LocalDateTime.now())+":Error in parsing GET request to /api/map/*");
                 results = new JSONArray();
                 JSONObject result = new JSONObject();
                 result.put("error","Request parsing error");
                 result.put("complete",false);
                 results.put(result);
-                response.body(results.toString());
             }
             catch (SQLException f){
                 log.warning(dtf.format(LocalDateTime.now())+":Error in database connection: " + f.getMessage());
@@ -346,26 +331,25 @@ public class API {
                 result.put("error","Database connection error");
                 result.put("complete",false);
                 results.put(result);
-                response.body(results.toString());
             }
-            return response;
+            return results.toString();
         });
 
         get("/api/local", (request, response) -> {
             JSONArray results = new JSONArray();
             try {
-                if (inUK( Double.parseDouble(request.params("latitude")),  Double.parseDouble(request.params("longitude")))) {
+                if (inUK( Double.parseDouble(request.queryParams("latitude")),  Double.parseDouble(request.queryParams("longitude")))) {
                     //DB request for info on body.get("pest"); in range
                     String req = "SELECT DISTINCT name, date, severity, ABS ((latitude - ?) * (latitude - ?) + (longitude - ?) * (longitude - ?)) as distance" +
                         " FROM PestsAndDiseases WHERE date > ? AND ABS (latitude - ?) < 0.5 AND ABS (longitude - ?) < 0.5 ORDER BY distance";
                     PreparedStatement p = connection.prepareStatement(req);
                     p.setDate(5,  Date.valueOf(LocalDate.now().minusDays(14)));
-                    p.setFloat(6, (float) Double.parseDouble(request.params("latitude")));
-                    p.setFloat(7, (float) Double.parseDouble(request.params("longitude")));
-                    p.setFloat(1, (float) Double.parseDouble(request.params("latitude")));
-                    p.setFloat(2, (float) Double.parseDouble(request.params("latitude")));
-                    p.setFloat(3, (float) Double.parseDouble(request.params("longitude")));
-                    p.setFloat(4, (float) Double.parseDouble(request.params("longitude")));
+                    p.setFloat(6, (float) Double.parseDouble(request.queryParams("latitude")));
+                    p.setFloat(7, (float) Double.parseDouble(request.queryParams("longitude")));
+                    p.setFloat(1, (float) Double.parseDouble(request.queryParams("latitude")));
+                    p.setFloat(2, (float) Double.parseDouble(request.queryParams("latitude")));
+                    p.setFloat(3, (float) Double.parseDouble(request.queryParams("longitude")));
+                    p.setFloat(4, (float) Double.parseDouble(request.queryParams("longitude")));
 
                     ResultSet resultSet = p.executeQuery();
 
@@ -378,17 +362,16 @@ public class API {
                                 result.put("severity", resultSet.getInt("severity"));
                                 results.put(result);
                     }
-                    response.body(results.toString());
+                    return results.toString();
                 }
             }
-            catch(JSONException e){
+            catch(JSONException|NullPointerException e){
                 log.warning(dtf.format(LocalDateTime.now())+":Error in parsing GET request to /api/map/*");
                 results = new JSONArray();
                 JSONObject result = new JSONObject();
                 result.put("error","Request parsing error");
                 result.put("complete",false);
                 results.put(result);
-                response.body(results.toString());
             }
             catch (SQLException f){
                 log.warning(dtf.format(LocalDateTime.now())+":Error in database connection: " + f.getMessage());
@@ -397,16 +380,13 @@ public class API {
                 result.put("error","Database connection error");
                 result.put("complete",false);
                 results.put(result);
-                response.body(results.toString());
             }
-            return response;
+            return results.toString();
         });
 
-        // For testing - remember to remove?
         get("/check", (request, response) -> {
             JSONObject result = new JSONObject();
-            Random random = new Random();
-            int report_id= Integer.parseInt(request.params("report_id"));
+            int report_id= Integer.parseInt(request.queryParams("report_id"));
             PreparedStatement check = connection.prepareStatement("SELECT COUNT(*) AS total from PestsAndDiseases WHERE report_id="+report_id);
             ResultSet r = check.executeQuery();
             if(r.getInt("total") == 0){
@@ -416,8 +396,7 @@ public class API {
             else{
                 result.put("complete",false);
             }
-            response.body(result.toString());
-            return response;
+            return result.toString();
 
         });
     }
